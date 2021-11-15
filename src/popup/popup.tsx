@@ -7,6 +7,7 @@ import {Login} from "./containers/login";
 import "./popup.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Logout } from "./containers/logout";
+import { DisplayLink } from "./containers/display-link";
 
 const App: React.FC<{}> = () => {
   const [userAccessToken, setUserAccessToken] = useState<string>("");
@@ -22,7 +23,6 @@ const App: React.FC<{}> = () => {
 
   const logIn = () => {
     chrome.identity.getAuthToken({ interactive: true }, function (token) {
-      console.log(token);
       setIsLoggedIn(true);
       setUserAccessToken(token);
       chrome.storage.local.set({isLoggedIn: true}, function() {
@@ -48,6 +48,11 @@ const App: React.FC<{}> = () => {
       .then((res) => res.json())
       .then((response) => {
         setMeetLink(response.conferenceData.entryPoints[0].uri);
+        navigator.clipboard.writeText(response.conferenceData.entryPoints[0].uri).then(() => {
+          console.log("copied to clipboard");
+      }, () => {
+         console.log("copy to clipboard failed");
+      });
       });
   };
   return (
@@ -59,12 +64,7 @@ const App: React.FC<{}> = () => {
         <Container className="pt-2 flex" fluid>
             <LinkForm createEvent={createEvent}/>
             {meetLink !== "" && (
-              <Row>
-                <Alert variant="light">
-                  Here is your link, it is valid for 24 hours{" "}
-                  <a href={meetLink}>{meetLink}</a>
-                </Alert>
-              </Row>
+              <DisplayLink meetLink={meetLink}/>
             )}
          <Logout logOut={logOut}/>
         </Container>

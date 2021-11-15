@@ -42,5 +42,5 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 150px;
+  gap: 20px;
 }
