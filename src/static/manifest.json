@@ -4,16 +4,22 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
+    "16": "images/get_started16.png",
+    "48": "images/get_started48.png",
+    "128": "images/get_started128.png"
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Weather Extension",
-    "default_icon": "icon.png"
+    "default_title": "Meet Extension",
+    "default_icon": "images/get_started16.png"
   },
   "permissions": ["storage","identity"],
+  "oauth2": {
+    "client_id": "153947023649-9jarfs25tsoa742tr60o00bp7b8gagv0.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar"
+    ]
+  },
   "options_page": "options.html",
   "background": {
     "service_worker": "background.js"

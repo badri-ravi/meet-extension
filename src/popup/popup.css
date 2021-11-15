@@ -1,3 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
 body {
-  background-color: #1c1c1c;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  background-color: white;
+  width: 400px;
+  height: 300px;
+
+}
+
+.pt-2{
+  padding-top: 8rem;
+}
+
+
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 150px;
 }
