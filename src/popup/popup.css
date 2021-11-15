@@ -26,7 +26,17 @@ body {
   padding-top: 8rem;
 }
 
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
+}
 
+.wd-50 {
+  width: 50%;
+}
 
 .flex {
   display: flex;

@@ -6,29 +6,41 @@ import { createEventInCalendar } from "./helpers";
 import {Login} from "./containers/login";
 import "./popup.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Logout } from "./containers/logout";
 
 const App: React.FC<{}> = () => {
   const [userAccessToken, setUserAccessToken] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [meetLink, setMeetLink] = useState<string>("");
   useEffect(() => {
-    chrome.storage.local.get(['isLoggedIn'], function(result) {
-      if(result.key === true) {
+     chrome.storage.local.get(['isLoggedIn'], function(result) {
+      if(result.isLoggedIn === true) {
         setIsLoggedIn(true);
       }
-    });
-    chrome.identity.getAuthToken({ interactive: true }, function (token) {
-      setUserAccessToken(token);
     });
   }, []);
 
   const logIn = () => {
     chrome.identity.getAuthToken({ interactive: true }, function (token) {
+      console.log(token);
       setIsLoggedIn(true);
+      setUserAccessToken(token);
       chrome.storage.local.set({isLoggedIn: true}, function() {
         console.log('user logged-in');
       });    
     });
+  }
+
+  const logOut = () => {
+    userAccessToken !== "" && window.fetch("https://accounts.google.com/o/oauth2/revoke?token=" + userAccessToken);
+    chrome.identity.removeCachedAuthToken({'token' : userAccessToken}, function(){
+      setIsLoggedIn(false);
+      setUserAccessToken("");
+      chrome.storage.local.set({isLoggedIn: false}, function() {
+        console.log('user logged out');
+      }); 
+    })
+  
   }
 
   const createEvent = () => {
@@ -41,7 +53,7 @@ const App: React.FC<{}> = () => {
   return (
     <Container>
       {!isLoggedIn && (
-        <Login/>
+        <Login logIn={logIn}/>
       )}
       {isLoggedIn  && (
         <Container className="pt-2 flex" fluid>
@@ -54,9 +66,7 @@ const App: React.FC<{}> = () => {
                 </Alert>
               </Row>
             )}
-          <Row>
-            <a href="" className="text-center"><small>Click here to sign-in from a different account</small></a>
-          </Row>
+         <Logout logOut={logOut}/>
         </Container>
       )}
     </Container>

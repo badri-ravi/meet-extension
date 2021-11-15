@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Row, Button} from "react-bootstrap";
 
-export const Login: React.FC<{}> = ()  => {
+export const Login: React.FC<{logIn: () => void}> = ({logIn})  => {
     return (
-        <Row>
-            <Button type='button' className="primary">Log-in</Button>
-        </Row>
+        <div className="login-container"> 
+             <h4 className="text-center"> Create Instant Google Meet Links </h4>
+            <Button type='button' className="primary wd-50" onClick={logIn} size="sm">Log-in</Button>
+        </div>
     )
-}
+} 
