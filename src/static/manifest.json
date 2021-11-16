@@ -13,9 +13,9 @@
     "default_title": "Meet Extension",
     "default_icon": "images/get_started16.png"
   },
-  "permissions": ["storage","identity","clipboardRead","clipboardWrite"],
+  "permissions": ["storage","identity"],
   "oauth2": {
-    "client_id": "<client-id>",
+    "client_id": "153947023649-9jarfs25tsoa742tr60o00bp7b8gagv0.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/calendar"
     ]
