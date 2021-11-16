@@ -6,15 +6,9 @@ export const LinkForm: React.FC<{ createEvent: () => void }> = ({
 }) => {
   return (
     <Row>
-      <Form>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Enter title for your link</Form.Label>
-          <Form.Control type="text" placeholder="Enter title (optional)" />
-        </Form.Group>
-        <Button variant="primary" type="button" onClick={createEvent}>
-          Submit
-        </Button>
-      </Form>
+      <Button variant="primary" type="button" onClick={createEvent} onKeyPress={event => { if(event.key === "Enter"){ console.log("keypress") }}}>
+          Click to create your link
+      </Button>
     </Row>
   );
 };

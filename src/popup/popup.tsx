@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Logout } from "./containers/logout";
 import { DisplayLink } from "./containers/display-link";
 
+
 const App: React.FC<{}> = () => {
   const [userAccessToken, setUserAccessToken] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -17,15 +18,19 @@ const App: React.FC<{}> = () => {
      chrome.storage.local.get(['isLoggedIn'], function(result) {
       if(result.isLoggedIn === true) {
         setIsLoggedIn(true);
+        setMeetLink("");
+        chrome.identity.getAuthToken({ interactive: true }, function (token) {
+          setUserAccessToken(token);
+        });
       }
     });
   }, []);
 
   const logIn = () => {
     chrome.identity.getAuthToken({ interactive: true }, function (token) {
-      setIsLoggedIn(true);
-      setUserAccessToken(token);
       chrome.storage.local.set({isLoggedIn: true}, function() {
+        setIsLoggedIn(true);
+        setUserAccessToken(token);
         console.log('user logged-in');
       });    
     });
@@ -34,9 +39,9 @@ const App: React.FC<{}> = () => {
   const logOut = () => {
     userAccessToken !== "" && window.fetch("https://accounts.google.com/o/oauth2/revoke?token=" + userAccessToken);
     chrome.identity.removeCachedAuthToken({'token' : userAccessToken}, function(){
-      setIsLoggedIn(false);
       setUserAccessToken("");
-      chrome.storage.local.set({isLoggedIn: false}, function() {
+      chrome.storage.local.remove('isLoggedIn', function() {
+        setIsLoggedIn(false);
         console.log('user logged out');
       }); 
     })
@@ -44,7 +49,7 @@ const App: React.FC<{}> = () => {
   }
 
   const createEvent = () => {
-    createEventInCalendar("", userAccessToken)
+     createEventInCalendar("", userAccessToken)
       .then((res) => res.json())
       .then((response) => {
         setMeetLink(response.conferenceData.entryPoints[0].uri);
