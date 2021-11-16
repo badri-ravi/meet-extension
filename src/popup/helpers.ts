@@ -20,7 +20,7 @@ export const createEventInCalendar = (summary: string,  userAccessToken: string)
           'Content-Type': 'application/json'
         }),
         body: JSON.stringify({
-          summary: summary !== "" ? summary : "New Event",
+          summary: "Quick Link Created From Meet Extension " + (currentDate).toDateString(),
           start: {
             dateTime: currentDate.getFullYear()+"-"+(currentDate.getMonth() + 1)+"-"+(currentDate.getDate())+"T"+currentDate.getHours()+":"+currentDate.getMinutes()+":00",
             timeZone: "Asia/Kolkata"
